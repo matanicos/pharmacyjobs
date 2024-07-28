@@ -7,21 +7,16 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
             background-color: #f0f0f0;
         }
         .container {
-            text-align: center;
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 100%;
         }
         .instruction {
             font-size: 18px;
@@ -30,8 +25,8 @@
         }
         button {
             display: inline-block;
+            padding: 10px 20px;
             margin: 5px;
-            padding: 10px 15px;
             font-size: 16px;
             background-color: #4CAF50;
             color: white;
@@ -43,15 +38,8 @@
         button:hover {
             background-color: #45a049;
         }
-        #info {
+        #info, #jobs {
             margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        #jobs {
-            margin-top: 20px;
-            text-align: right;
         }
         .job-item {
             background-color: #f9f9f9;
@@ -65,7 +53,7 @@
 <body>
     <div class="container">
         <h1>משרות לרוקחים לפי אזור</h1>
-        <div class="instruction">בחר אזור מהרשימה</div>
+        <p class="instruction">בחר אזור מהרשימה</p>
         <div>
             <button onclick="showJobs('צפון')">צפון</button>
             <button onclick="showJobs('גוש דן')">גוש דן</button>
@@ -78,7 +66,7 @@
     </div>
 
     <script>
-    // נדמה קובץ CSV עם משרות לרוקחים
+    // נתוני CSV עם משרות לרוקחים
     const csvData = `
 אזור,תפקיד,מיקום,תיאור
 אזור נתניה, רוקח לעבודה משרדית וניהול תיקי לקוחות, נתניה, משרה מלאה שכר כ 17 אש"ח משרה 212 שליחת קורות חיים למייל contact@successpharm.co.il
@@ -90,7 +78,6 @@
 דרום, רוקח QA שיעבור הכשרה ל QP, ירוחם, לחברת תרופות גדולה דרוש רוקח הבטחת איכות משרה מלאה משרה 666 קורות חיים ל contact@successpharm.co.il
 השפלה, רוקח הכנות רוקחיות, אשדוד, לחברת תרופות דרוש רוקח להכנות רוקחיות תנאים טובים משרה 999 contact@successpharm.co.il
 דרום, רוקח הכנות רוקחיות, אשדוד, לחברת תרופות דרוש רוקח להכנות רוקחיות תנאים טובים משרה 999 contact@successpharm.co.il
-
     `;
 
     // פונקציה לפרסור הנתונים מה-CSV
@@ -100,7 +87,7 @@
         return lines.map(line => {
             const values = line.split(',');
             return headers.reduce((obj, header, index) => {
-                obj[header] = values[index];
+                obj[header.trim()] = values[index].trim();
                 return obj;
             }, {});
         });
@@ -112,7 +99,7 @@
         const jobsDiv = document.getElementById('jobs');
         const infoDiv = document.getElementById('info');
         
-        infoDiv.innerText = 'האזור שנבחר: ' + region;
+        infoDiv.textContent = `האזור שנבחר: ${region}`;
         
         const filteredJobs = jobs.filter(job => job.אזור === region);
         
@@ -121,12 +108,12 @@
             return;
         }
 
-        jobsDiv.innerHTML = '<h3>משרות זמינות באזור ' + region + ':</h3>';
+        jobsDiv.innerHTML = '<h2>משרות זמינות:</h2>';
         filteredJobs.forEach(job => {
             const jobElement = document.createElement('div');
             jobElement.className = 'job-item';
             jobElement.innerHTML = `
-                <h4>${job.תפקיד}</h4>
+                <h3>${job.תפקיד}</h3>
                 <p><strong>מיקום:</strong> ${job.מיקום}</p>
                 <p><strong>תיאור:</strong> ${job.תיאור}</p>
             `;
