@@ -93,6 +93,14 @@
         });
     }
 
+    // פונקציה להמרת כתובות אימייל לקישורים
+    function convertEmailsToLinks(text) {
+        return text.replace(
+            /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi,
+            '<a href="mailto:$1">$1</a>'
+        );
+    }
+
     const jobs = parseCSV(csvData);
 
     function showJobs(region) {
@@ -115,7 +123,7 @@
             jobElement.innerHTML = `
                 <h3>${job.תפקיד}</h3>
                 <p><strong>מיקום:</strong> ${job.מיקום}</p>
-                <p><strong>תיאור:</strong> ${job.תיאור}</p>
+                <p><strong>תיאור:</strong> ${convertEmailsToLinks(job.תיאור)}</p>
             `;
             jobsDiv.appendChild(jobElement);
         });
