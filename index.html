@@ -1,10 +1,98 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <!-- ... (החלק הזה נשאר ללא שינוי) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משרות לרוקחים לפי אזור</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .instruction {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #info, #jobs {
+            margin-top: 20px;
+        }
+        .job-item {
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: right;
+        }
+        .job-item h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- ... (החלק הזה נשאר ללא שינוי) ... -->
+    <div class="container">
+        <h1>משרות לרוקחים לפי אזור</h1>
+        <p class="instruction">בחר אזור מהרשימה</p>
+        <div class="button-container">
+            <button onclick="showJobs('צפון')">צפון</button>
+            <button onclick="showJobs('גוש דן')">גוש דן</button>
+            <button onclick="showJobs('אזור נתניה')">אזור נתניה</button>
+            <button onclick="showJobs('השפלה')">השפלה</button>
+            <button onclick="showJobs('דרום')">דרום</button>
+        </div>
+        <div id="info"></div>
+        <div id="jobs"></div>
+    </div>
 
     <script>
     // נתוני CSV עם משרות לרוקחים
