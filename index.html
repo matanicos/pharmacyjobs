@@ -98,7 +98,6 @@
 אזור,תפקיד,מיקום,תיאור
 אזור נתניה, רוקח לעבודה משרדית וניהול תיקי לקוחות, נתניה, משרה מלאה שכר כ 17 אש"ח משרה 212 שליחת קורות חיים למייל contact@successpharm.co.il
 גוש דן, רוקח לבית מרקחת לעבודה משרדית וקצת קנאביס, פתח תקווה, משרה מגוונת התעסקות עם 29ג' ומעט מטופלים משרה 739 קורות חיים למייל contact@successpharm.co.il 
-גוש דן, רוקח לבית מרקחת, תל אביב וכל גוש דן, רוקח למשרה מלאה לבית מרקחת תנאים מצוינים למתאימים משרה 888 קורות חיים למייל contact@successpharm.co.il
 גוש דן, רוקח לבית מרקחת לעבודה של בק אופיס כמעט ללא קהל, ראשון לציון, דרוש רוקח לבית מרקחת יתרון למחזיקי קנאביס משרה 767 קורות חיים למייל contact@successpharm.co.il
 גוש דן, רוקח ממונה, פתח תקווה, חברת תרופות בפתח תקווה מחפשת רוקח ממונה עם ניסיון של שנתיים ברישום הגשות וניהול הרישום בחברה משרה  333 קורות חיים למייל contact@successpharm.co.il
 גוש דן, רוקח QA עם הכשרה לרוקח QP, בת ים, למפעל יצרני של תרופות דרוש רוקח QA שיעבור הכשרה ל QP חובה תואר שני משרה 001 contact@successpharm.co.il
@@ -139,10 +138,17 @@
         filteredJobs.forEach(job => {
             const jobElement = document.createElement('div');
             jobElement.className = 'job-item';
+            
+            // Convert email to clickable link
+            const description = job.תיאור.replace(
+                /(contact@successpharm\.co\.il)/g, 
+                '<a href="mailto:$1">$1</a>'
+            );
+            
             jobElement.innerHTML = `
                 <h3>${job.תפקיד}</h3>
                 <p><strong>מיקום:</strong> ${job.מיקום}</p>
-                <p><strong>תיאור:</strong> ${job.תיאור}</p>
+                <p><strong>תיאור:</strong> ${description}</p>
             `;
             jobsDiv.appendChild(jobElement);
         });
