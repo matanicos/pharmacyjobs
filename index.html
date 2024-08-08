@@ -7,42 +7,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
             background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
         }
         .container {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-        }
-        h1 {
-            color: #2c3e50;
         }
         .instruction {
             font-size: 18px;
             margin-bottom: 20px;
-            color: #34495e;
-        }
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            color: #333;
         }
         button {
+            display: inline-block;
             padding: 10px 20px;
+            margin: 5px;
             font-size: 16px;
-            background-color: #3498db;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
@@ -50,32 +36,22 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #2980b9;
+            background-color: #45a049;
         }
         #info, #jobs {
             margin-top: 20px;
         }
         .job-item {
-            background-color: #ecf0f1;
-            border: 1px solid #bdc3c7;
-            padding: 15px;
-            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
             border-radius: 5px;
-            text-align: right;
         }
-        .job-item h3 {
-            color: #2c3e50;
-            margin-top: 0;
-        }
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-            button {
-                width: 100%;
-                margin-bottom: 10px;
-            }
+        .disclaimer {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
         }
     </style>
 </head>
@@ -83,15 +59,17 @@
     <div class="container">
         <h1>משרות לרוקחים לפי אזור</h1>
         <p class="instruction">בחר אזור מהרשימה</p>
-        <div class="button-container">
+        <div>
             <button onclick="showJobs('צפון')">צפון</button>
             <button onclick="showJobs('גוש דן')">גוש דן</button>
             <button onclick="showJobs('אזור נתניה')">אזור נתניה</button>
             <button onclick="showJobs('השפלה')">השפלה</button>
             <button onclick="showJobs('דרום')">דרום</button>
+            <button onclick="showJobs('ירושלים ומודיעין')">ירושלים ומודיעין</button>
         </div>
         <div id="info"></div>
         <div id="jobs"></div>
+        <p class="disclaimer">המשרות מנוסחות בלשון זכר אך מופנות לשני המינים</p>
     </div>
 
     <script>
@@ -104,9 +82,9 @@
 גוש דן, רוקח לבית מרקחת לעבודה של בק אופיס כמעט ללא קהל, ראשון לציון, דרוש רוקח לבית מרקחת יתרון למחזיקי קנאביס משרה 767 קורות חיים למייל contact@successpharm.co.il
 גוש דן, רוקח ממונה, פתח תקווה, חברת תרופות בפתח תקווה מחפשת רוקח ממונה עם ניסיון של שנתיים ברישום הגשות וניהול הרישום בחברה משרה  333 קורות חיים למייל contact@successpharm.co.il
 גוש דן, רוקח QA עם הכשרה לרוקח QP, בת ים, למפעל יצרני של תרופות דרוש רוקח QA שיעבור הכשרה ל QP חובה תואר שני משרה 001 contact@successpharm.co.il
-דרום, רוקח QA שיעבור הכשרה ל QP, ירוחם, לחברת תרופות גדולה דרוש רוקח הבטחת איכות משרה מלאה משרה 666 קורות חיים ל contact@successpharm.co.il
 השפלה, רוקח הכנות רוקחיות, אשדוד, לחברת תרופות דרוש רוקח להכנות רוקחיות תנאים טובים משרה 999 contact@successpharm.co.il
 דרום, רוקח הכנות רוקחיות, אשדוד, לחברת תרופות דרוש רוקח להכנות רוקחיות תנאים טובים משרה 999 contact@successpharm.co.il
+ירושלים ומודיעין, רוקח לבית מרקחת ללא קבלת קהל!, מודיעין, לבית מרקחת במודיעין ללא קהל לעבודה מעניינת מאתגרת עם 29ג וללא מטופלים. שכר כ 18 אלף משרה 888 contact@successpharm.co.il
     `;
 
     // פונקציה לפרסור הנתונים מה-CSV
@@ -116,20 +94,10 @@
         return lines.map(line => {
             const values = line.split(',');
             return headers.reduce((obj, header, index) => {
-                obj[header.trim()] = values[index] ? values[index].trim() : '';
+                obj[header.trim()] = values[index].trim();
                 return obj;
             }, {});
         });
-    }
-
-    // פונקציה להמרת כתובות אימייל לקישורים
-    function convertEmailsToLinks(text) {
-        return text.replace(
-            /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi,
-            function(match) {
-                return '<a href="mailto:' + match + '">' + match + '</a>';
-            }
-        );
     }
 
     const jobs = parseCSV(csvData);
@@ -151,11 +119,10 @@
         filteredJobs.forEach(job => {
             const jobElement = document.createElement('div');
             jobElement.className = 'job-item';
-            const description = convertEmailsToLinks(job.תיאור);
             jobElement.innerHTML = `
                 <h3>${job.תפקיד}</h3>
                 <p><strong>מיקום:</strong> ${job.מיקום}</p>
-                <p><strong>תיאור:</strong> ${description}</p>
+                <p><strong>תיאור:</strong> ${job.תיאור}</p>
             `;
             jobsDiv.appendChild(jobElement);
         });
